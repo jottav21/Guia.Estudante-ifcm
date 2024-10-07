@@ -1,4 +1,4 @@
-name: MasterCI
+name: Guia
 
 on:
   push:
@@ -11,27 +11,22 @@ jobs:
     name: Build and Deploy
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node.js
+      - uses: actions/checkout@master
+
+      - name: Bucket actions
         uses: actions/setup-node@v1
         with:
           node-version: 8
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm run test
-
-      - name: Generate build
-        run: npm run generate
-
-      - name: Publish to server via SCP
+      - run: npm i
+      - run: npm run test
+      - run: npm run generate
+      
+      - name: Publish
         uses: nogsantos/scp-deploy@master
         with:
           src: ./dist/*
-          host: ${{ secrets.SSH_HOST }}       
-          remote: ${{ secrets.SSH_REMOTE }}   
-          port: ${{ secrets.SSH_PORT }}       
-          user: ${{ secrets.SSH_USER }}       
-          key: ${{ secrets.SSH_KEY }}        
+          host: ${{ secrets.SSH_HOST }}
+          remote: ${{ secrets.SSH_DIR }}
+          port: ${{ secrets.SSH_PORT }}
+          user: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
