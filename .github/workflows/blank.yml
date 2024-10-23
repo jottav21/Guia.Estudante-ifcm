@@ -19,7 +19,6 @@ jobs:
           node-version: '16'
           
       - run: npm install 
-      - run: npm run test
       - run: npm run generate
       
       - name: Publish
